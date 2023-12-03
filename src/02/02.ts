@@ -48,7 +48,6 @@ export function partOne(input: ReturnType<typeof parse>) {
   }
   return Object.entries(input)
     .filter(([set, cubeSets]) => {
-      console.log(cubeSets)
       return cubeSets.every(
         cubes =>
           cubes.red <= bag.red &&
@@ -57,12 +56,11 @@ export function partOne(input: ReturnType<typeof parse>) {
       )
     })
     .reduce((acc, set) => {
-      console.log(set)
       return acc + parseInt(set[0])
     }, 0)
 }
 // console.log(
-//   partOne(
+//   partTwo(
 //     parse(`
 // Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 // Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -73,4 +71,18 @@ export function partOne(input: ReturnType<typeof parse>) {
 //   )
 // )
 
-export function partTwo(input: ReturnType<typeof parse>) {}
+export function partTwo(input: ReturnType<typeof parse>) {
+  let sum = 0
+  Object.values(input).forEach(game => {
+    let red = 1,
+      blue = 1,
+      green = 1
+    game.forEach(set => {
+      if ((set.red ?? 0) > red) red = set.red
+      if ((set.green ?? 0) > green) green = set.green
+      if ((set.blue ?? 0) > blue) blue = set.blue
+    })
+    sum += red * blue * green
+  })
+  return sum
+}
